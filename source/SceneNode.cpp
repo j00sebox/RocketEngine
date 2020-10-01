@@ -1,11 +1,11 @@
 #include "SceneNode.h"
 
-ScenceNode::AddChild(SceneNode* pNode)
+void SceneNode::AddChild(SceneNode* pNode)
 {
 	childList.push_back(pNode);
 }
 
-ScenceNode::Update()
+void SceneNode::Update()
 {
 	// loop through the list and update the children
 	for (std::list<SceneNode*>::iterator i = childList.begin();
@@ -15,7 +15,7 @@ ScenceNode::Update()
 	}
 }
 
-void ScenceNode::Destroy()
+void SceneNode::Destroy()
 {
 	// loop through and delete children
 	for (std::list<SceneNode*>::iterator i = childList.begin();
@@ -25,25 +25,40 @@ void ScenceNode::Destroy()
 	childList.clear();
 }
 
-
-TransformNode::SetMatrix(float m[4][4])
+void GeometryNode::Update()
 {
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
-			matrix_transform[i][j] = m[i][j];
+	// Draw 
+	glBegin(GL_QUADS);
+	for (int i = 0; i < (int)vertices.size(); i++)
+	{
+		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
+	}
+	glEnd();
+
+	SceneNode::Update();
 }
 
-TransformNode::Update()
+void GeometryNode::AddVertex(float x, float y, float z)
+{
+	vertices.push_back(Vertex(x, y, z));
+}
+
+void TransformNode::SetMatrix(m4x4 m)
+{
+	*matrix_transform = m;
+}
+
+void TransformNode::Update()
 {
 	// save current transform
 	glPushMatrix();
 
 	// load the transform assigned to this node
-	glLoadMatrix((float*)matrix_transform);
+	glLoadMatrix4x4(matrix_transform);
 
 	// Update Nodes that use this transform
 	SceneNode::Update();
 
 	// recover the initial matrix transform
-	glPopMatrix();
+	glPopMatrix(0);
 }

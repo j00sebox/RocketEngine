@@ -1,6 +1,8 @@
 #include <nds.h>
+#include <list>
+#include <vector>
 
-class ScenceNode
+class SceneNode
 {
 public:
 	// constructor
@@ -25,30 +27,41 @@ private:
 	std::list<SceneNode*> childList;
 };
 
+struct Vertex {
+	Vertex(float a = 0, float b = 0, float c = 0)
+	{
+		x = a; y = b; z = c;
+	}
+
+	float x, y, z;
+};
+
 class GeometryNode : public SceneNode
 {
 public:
 	GeometryNode() { }
 	~GeometryNode() { }
 
-	void Update()
-	{
-		// Draw 
 
-		SceneNode::Update();
-	}
+	void Update();
+
+	void AddVertex(float x, float y, float z);
+
+private:
+	std::vector<Vertex> vertices;
+
 };
 
-class TransformNode : public ScenceNode
+class TransformNode : public SceneNode
 {
 public:
 	TransformNode() { }
-	TransformNode() { }
+	~TransformNode() { }
 
-	void SetMatrix(float m[4][4]);
+	void SetMatrix(m4x4 m);
 
 	void Update(void);
 
 private:
-	float matrix_transform[4][4];
+	m4x4* matrix_transform;
 };
