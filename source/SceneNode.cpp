@@ -25,40 +25,59 @@ void SceneNode::Destroy()
 	childList.clear();
 }
 
-void GeometryNode::Update()
+void GeometryNode::Draw()
 {
 	// Draw 
 	glBegin(GL_QUADS);
+
+	int c = 0;
+
 	for (int i = 0; i < (int)vertices.size(); i++)
 	{
+		if (i % 4 == 0) {
+			glColor3f(colours[c].x, colours[c].y, colours[c].z);
+			c++;
+		}
 		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
 	}
 	glEnd();
+
+}
+
+void GeometryNode::Update()
+{
+
+	glPushMatrix();
+
+	glLoadIdentity();
+
+	glTranslatef(coord.x, coord.y, coord.z);
+
+	glRotateX(rot.x);
+	glRotateY(rot.y);
+	glRotateZ(rot.x);
+
+	Draw();
+
+	// recover the initial matrix transform
+	glPopMatrix(0);
 
 	SceneNode::Update();
 }
 
 void GeometryNode::AddVertex(float x, float y, float z)
 {
-	vertices.push_back(Vertex(x, y, z));
+	vertices.push_back(Vec3D(x, y, z));
 }
 
-void TransformNode::SetMatrix(m4x4 m)
+void GeometryNode::AddColour(float r, float g, float b)
 {
-	*matrix_transform = m;
+	colours.push_back(Vec3D(r, g, b));
 }
 
-void TransformNode::Update()
+void GeometryNode::UpdateRot(float dx, float dy, float dz)
 {
-	// save current transform
-	glPushMatrix();
-
-	// load the transform assigned to this node
-	glLoadMatrix4x4(matrix_transform);
-
-	// Update Nodes that use this transform
-	SceneNode::Update();
-
-	// recover the initial matrix transform
-	glPopMatrix(0);
+	rot.x += dx;
+	rot.y += dy;
+	rot.z += dz;
 }

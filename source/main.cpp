@@ -6,15 +6,37 @@
 
 #include "drunkenlogo_pcx.h"
 
-int DrawGLScene();
 void init();
-void ChangeScene();
+void Render();
 
-float   xrot;                           // X Rotation
-float   yrot;                           // Y Rotation 
-float   zrot;                           // Z Rotation 
+float posx = 0.0f;
+float posz = 5.0f;
+float camy = 0.0f;
+float lookAngle = 0.0f;
+std::vector<SceneNode*> scene;
+
+SceneNode root;
 
 int     texture[1];                     // Storage For One Texture
+
+float sin(float angle)
+{
+	int32 s = sinLerp((short)(angle * DEGREES_IN_CIRCLE / 360));
+
+	return f32tofloat(s);
+}
+
+float cos(float angle)
+{
+	int32 c = cosLerp((short)(angle * DEGREES_IN_CIRCLE / 360));
+
+	return f32tofloat(c);
+}
+
+void GetCurrentMatrix(m4x4* curr)
+{
+	glGetFixed(GL_GET_MATRIX_POSITION, curr->m);
+}
 
 int LoadGLTextures()                                                                    
 {
@@ -38,85 +60,99 @@ int main() {
 
 	init();
 
-	SceneNode root;
+	GeometryNode floor(0.0f, 0.0f, -5.0f);
 
-	TransformNode firstTransform;
-	GeometryNode cube;
+	GeometryNode cube(0.0f, 0.0f, -5.0f);
 
-	root.AddChild(&firstTransform);
-	firstTransform.AddChild(&cube);
+	root.AddChild(&cube);
+	root.AddChild(&floor);
 
-	glLoadIdentity();                                                                       // Reset The View
+	// Reset The View
+	glLoadIdentity();  
+                                                                     
+	// Create floor
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddVertex(-150.0, -3.0, -150.0); 
+	floor.AddVertex(150.0, -3.0, -150.0); 
+	floor.AddVertex(150.0, -3.0, 150.0); 
+	floor.AddVertex(-150.0, -3.0, 150.0); 
 
-	glTranslatef(0.0f, 0.0f, -5.0f);
-
-	glRotatef(xrot, 1.0f, 0.0f, 0.0f);
-	glRotatef(yrot, 0.0f, 1.0f, 0.0f);
-	glRotatef(zrot, 0.0f, 0.0f, 1.0f);
-
-	m4x4 t;
-	m4x4* pos = &t;
-
-	glGetFixed(GL_GET_MATRIX_POSITION, pos->m);
-
-	firstTransform.SetMatrix(*pos);
-
-	glMatrixMode(GL_MODELVIEW);
+	/*****************Cube********************/
 
 	// Front Face
-	cube.AddVertex(-1.0f, -1.0f, 1.0f);
-	cube.AddVertex(1.0f, -1.0f, 1.0f);
-	cube.AddVertex(1.0f, 1.0f, 1.0f);
-	cube.AddVertex(-1.0f, 1.0f, 1.0f);
+	cube.AddColour(1.0f, 0.0f, 0.0f);
+	cube.AddVertex(-1.0f, -1.0f, 1.0f); 
+	cube.AddVertex(1.0f, -1.0f, 1.0f); 
+	cube.AddVertex(1.0f, 1.0f, 1.0f); 
+	cube.AddVertex(-1.0f, 1.0f, 1.0f); 
+
 	// Back Face
-	cube.AddVertex(-1.0f, -1.0f, -1.0f);
-	cube.AddVertex(-1.0f, 1.0f, -1.0f);
-	cube.AddVertex(1.0f, 1.0f, -1.0f);
-	cube.AddVertex(1.0f, -1.0f, -1.0f);
+	cube.AddColour(0.0f, 1.0f, 1.0f);
+	cube.AddVertex(-1.0f, -1.0f, -1.0f); 
+	cube.AddVertex(-1.0f, 1.0f, -1.0f); 
+	cube.AddVertex(1.0f, 1.0f, -1.0f); 
+	cube.AddVertex(1.0f, -1.0f, -1.0f); 
+
 	// Top Face
-	cube.AddVertex(-1.0f, 1.0f, -1.0f);
-	cube.AddVertex(-1.0f, 1.0f, 1.0f);
-	cube.AddVertex(1.0f, 1.0f, 1.0f);
-	cube.AddVertex(1.0f, 1.0f, -1.0f);
+	cube.AddColour(1.0f, 0.0f, 1.0f);
+	cube.AddVertex(-1.0f, 1.0f, -1.0f); 
+	cube.AddVertex(-1.0f, 1.0f, 1.0f); 
+	cube.AddVertex(1.0f, 1.0f, 1.0f); 
+	cube.AddVertex(1.0f, 1.0f, -1.0f); 
+
 	// Bottom Face
-	cube.AddVertex(-1.0f, -1.0f, -1.0f);
-	cube.AddVertex(1.0f, -1.0f, -1.0f);
-	cube.AddVertex(1.0f, -1.0f, 1.0f);
-	cube.AddVertex(-1.0f, -1.0f, 1.0f);
+	cube.AddColour(0.75f, 0.0f, 1.0f);
+	cube.AddVertex(-1.0f, -1.0f, -1.0f); 
+	cube.AddVertex(1.0f, -1.0f, -1.0f); 
+	cube.AddVertex(1.0f, -1.0f, 1.0f); 
+	cube.AddVertex(-1.0f, -1.0f, 1.0f); 
+
 	// Right face
-	cube.AddVertex(1.0f, -1.0f, -1.0f);
-	cube.AddVertex(1.0f, 1.0f, -1.0f);
-	cube.AddVertex(1.0f, 1.0f, 1.0f);
-	cube.AddVertex(1.0f, -1.0f, 1.0f);
+	cube.AddColour(1.0f, 1.0f, 0.0f);
+	cube.AddVertex(1.0f, -1.0f, -1.0f); 
+	cube.AddVertex(1.0f, 1.0f, -1.0f); 
+	cube.AddVertex(1.0f, 1.0f, 1.0f); 
+	cube.AddVertex(1.0f, -1.0f, 1.0f); 
+
 	// Left Face
-	cube.AddVertex(-1.0f, -1.0f, -1.0f);
-	cube.AddVertex(-1.0f, -1.0f, 1.0f);
-	cube.AddVertex(-1.0f, 1.0f, 1.0f);
-	cube.AddVertex(-1.0f, 1.0f, -1.0f);
+	cube.AddColour(1.0f, 0.5f, 0.0f);
+	cube.AddVertex(-1.0f, -1.0f, -1.0f); 
+	cube.AddVertex(-1.0f, -1.0f, 1.0f); 
+	cube.AddVertex(-1.0f, 1.0f, 1.0f); 
+	cube.AddVertex(-1.0f, 1.0f, -1.0f); 
+
+	/*****************************************/
 
 
 	while (1)
 	{
-		// set the color of the vertices to be drawn
-		glColor3f(1, 1, 1);
+		scanKeys();
 
-		//DrawGLScene();
+		int held = keysHeld();
 
-		glLoadIdentity();                                                                       // Reset The View
+		if (held & KEY_LEFT)
+		{
+			lookAngle += 1.0f;
+			camy = lookAngle;
+		}
+		if (held & KEY_RIGHT)
+		{
+			lookAngle -= 1.0f;
+			camy = lookAngle;
 
-		glTranslatef(0.0f, 0.0f, -5.0f);
+		}
+		if (held & KEY_UP)
+		{
+			posx += (float)sin(lookAngle) * 0.05f;
+			posz += (float)cos(lookAngle) * 0.05f;
+		}
+		if (held & KEY_DOWN)
+		{
+			posx -= (float)sin(lookAngle) * 0.05f;
+			posz -= (float)cos(lookAngle) * 0.05f;
+		}
 
-		glRotatef(xrot, 1.0f, 0.0f, 0.0f);
-		glRotatef(yrot, 0.0f, 1.0f, 0.0f);
-		glRotatef(zrot, 0.0f, 0.0f, 1.0f);
-
-		glGetFixed(GL_GET_MATRIX_POSITION, pos->m);
-
-		firstTransform.SetMatrix(*pos);
-
-		glMatrixMode(GL_MODELVIEW);
-
-		root.Update();
+		Render();
 
 		// flush to screen      
 		glFlush(0);
@@ -124,9 +160,7 @@ int main() {
 		// wait for the screen to refresh
 		swiWaitForVBlank();
 
-		xrot += 0.3f;
-		yrot += 0.2f;
-		zrot += 0.4f;
+		cube.UpdateRot(0.3, 0.1, 0.4);
 	}
 
 	return 0;
@@ -137,7 +171,7 @@ void init()
 {
 	// Setup the Main screen for 3D 
 	videoSetMode(MODE_0_3D);
-	vramSetBankA(VRAM_A_TEXTURE);                        //NEW  must set up some memory for textures
+	//vramSetBankA(VRAM_A_TEXTURE);                        //NEW  must set up some memory for textures
 
 	// initialize the geometry engine
 	glInit();
@@ -162,8 +196,6 @@ void init()
 	glLoadIdentity();
 	gluPerspective(70, 256.0 / 192.0, 0.1, 100);
 
-	glLight(0, RGB15(31, 31, 31), 0, floattov10(-1.0), 0);
-
 	// Set the current matrix to be the model matrix
 	glMatrixMode(GL_MODELVIEW);
 
@@ -182,4 +214,9 @@ void init()
 	glLight(0, RGB15(31, 31, 31), 0, floattov10(-1.0), 0);
 	glLight(1, RGB15(31, 31, 31), 0, 0, floattov10(-1.0));
 	glLight(2, RGB15(31, 31, 31), 0, 0, floattov10(1.0));
+}
+
+void Render()
+{
+	root.Update();
 }
