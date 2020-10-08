@@ -25,6 +25,55 @@ void SceneNode::Destroy()
 	childList.clear();
 }
 
+void CameraNode::UpdateCameraPos(float dx, float dy, float dz)
+{
+	eye.x += dx; eye.y += dy; eye.z += dz;
+}
+
+void CameraNode::UpdateCameraLook(float dx, float dy, float dz)
+{
+	lookAt.x += dx; lookAt.y += dy; lookAt.z += dz;
+}
+
+void CameraNode::SetCameraPos(float x, float y, float z)
+{
+	eye.x = x; eye.y = y; eye.z = z;
+}
+
+void CameraNode::SetCameraPosY(float y)
+{
+	eye.y = y;
+}
+
+void CameraNode::SetCameraLookX(float x)
+{
+	lookAt.x = x;
+}
+
+void CameraNode::SetCameraLookY(float y)
+{
+	lookAt.y = y;
+}
+
+void CameraNode::SetCameraLookZ(float z)
+{
+	lookAt.z = z;
+}
+
+void CameraNode::Update()
+{
+	glPushMatrix();
+
+	glLoadIdentity();
+
+	gluLookAt(eye.x, eye.y, eye.z, lookAt.x, lookAt.y, lookAt.z, 0.0f, 1.0f, 0.0f);
+
+	//gluLookAt(0.0f, 1.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+
+	SceneNode::Update();
+
+}
+
 void GeometryNode::Draw()
 {
 	// Draw 
@@ -49,7 +98,9 @@ void GeometryNode::Update()
 
 	glPushMatrix();
 
-	glLoadIdentity();
+	glPopMatrix(0);
+
+	//gluLookAt(0.0f, 1.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 	glTranslatef(coord.x, coord.y, coord.z);
 

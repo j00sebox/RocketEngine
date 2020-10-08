@@ -36,6 +36,33 @@ struct Vec3D {
 	float x, y, z;
 };
 
+class CameraNode : public SceneNode
+{
+public:
+	CameraNode() { }
+	~CameraNode() { }
+
+	void UpdateCameraPos(float dx, float dy, float dz);
+
+	void UpdateCameraLook(float dx, float dy, float dz);
+
+	void SetCameraPos(float x, float y, float z);
+
+	void SetCameraPosY(float y);
+
+	void SetCameraLookX(float x);
+
+	void SetCameraLookY(float y);
+
+	void SetCameraLookZ(float z);
+
+	void Update();
+
+private:
+	Vec3D eye;
+	Vec3D lookAt;
+};
+
 class GeometryNode : public SceneNode
 {
 public:
