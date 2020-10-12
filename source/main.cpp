@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "SceneNode.h"
 #include <malloc.h>
+//#include <math.h> 
 //needed to load pcx files
 #include <nds/arm9/image.h>
 
@@ -15,7 +16,7 @@ float posz = 0.0f;
 float walkbias = 0;
 float walkbiasangle = 0;
 float camy = 0.0f;
-float lookAngle = 0.0f;
+float lookAngle = 90.0f;
 std::vector<SceneNode*> scene;
 
 SceneNode root;
@@ -140,19 +141,19 @@ int main() {
 
 		if (held & KEY_LEFT)
 		{
-			lookAngle += 0.5f;
+			lookAngle -= 3.0f;
 			camy = lookAngle;
 		}
 		if (held & KEY_RIGHT)
 		{
-			lookAngle -= 0.5f;
+			lookAngle += 3.0f;
 			camy = lookAngle;
 
 		}
 		if (held & KEY_UP)
 		{
-			posx = (float)sin(lookAngle) * 0.05f;
-			posz = (float)cos(lookAngle) * 0.05f;
+			posx = (float)cos(lookAngle) * 0.05f;
+			posz = (float)sin(lookAngle) * 0.05f;
 
 			if (walkbiasangle >= 359.0f)
 			{
@@ -167,8 +168,8 @@ int main() {
 		}
 		if (held & KEY_DOWN)
 		{
-			posx = -(float)sin(lookAngle) * 0.05f;
-			posz = -(float)cos(lookAngle) * 0.05f;
+			posx = -(float)cos(lookAngle) * 0.05f;
+			posz = -(float)sin(lookAngle) * 0.05f;
 
 			if (walkbiasangle <= 1.0f)
 			{
@@ -193,7 +194,7 @@ int main() {
 
 		fpCam.UpdateCameraPos(posx, 0.0f, posz);
 
-		fpCam.SetCameraLookX(camy);
+		fpCam.SetCameraLook( fpCam.GetPosX() + cos(lookAngle), 0.0f, fpCam.GetPosZ() + sin(lookAngle) );
 
 		cube.UpdateRot(0.3, 0.1, 0.4);
 

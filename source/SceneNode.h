@@ -50,11 +50,17 @@ public:
 
 	void SetCameraPosY(float y);
 
+	void SetCameraLook(float x, float y, float z);
+
 	void SetCameraLookX(float x);
 
 	void SetCameraLookY(float y);
 
 	void SetCameraLookZ(float z);
+
+	float GetPosX() { return eye.x; }
+	float GetPosY() { return eye.y; }
+	float GetPosZ() { return eye.z; }
 
 	void Update();
 
@@ -69,8 +75,6 @@ public:
 	GeometryNode(float x, float y, float z) { coord.x = x; coord.y = y; coord.z = z; rot.x = 0.0f; rot.y = 0.0f; rot.z = 0.0f; }
 	~GeometryNode() { }
 
-	void Draw();
-
 	void Update();
 
 	void AddVertex(float x, float y, float z);
@@ -81,10 +85,12 @@ public:
 
 private:
 	Vec3D coord;
+	Vec3D offset;
 	Vec3D rot;
 	std::vector<Vec3D> vertices;
 	std::vector<Vec3D> colours;
-	void Transform();
+	std::vector<Vec3D> textures;
+	void Draw();
 
 };
 

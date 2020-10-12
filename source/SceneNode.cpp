@@ -45,6 +45,11 @@ void CameraNode::SetCameraPosY(float y)
 	eye.y = y;
 }
 
+void CameraNode::SetCameraLook(float x, float y, float z)
+{
+	lookAt.x = x; lookAt.y = y; lookAt.z = z;
+}
+
 void CameraNode::SetCameraLookX(float x)
 {
 	lookAt.x = x;
@@ -67,8 +72,6 @@ void CameraNode::Update()
 	glLoadIdentity();
 
 	gluLookAt(eye.x, eye.y, eye.z, lookAt.x, lookAt.y, lookAt.z, 0.0f, 1.0f, 0.0f);
-
-	//gluLookAt(0.0f, 1.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 	SceneNode::Update();
 
@@ -100,9 +103,7 @@ void GeometryNode::Update()
 
 	glPopMatrix(0);
 
-	//gluLookAt(0.0f, 1.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-
-	glTranslatef(coord.x, coord.y, coord.z);
+	glTranslatef( (coord.x + offset.x), (coord.y + offset.y), (coord.z + offset.z) );
 
 	glRotateX(rot.x);
 	glRotateY(rot.y);
