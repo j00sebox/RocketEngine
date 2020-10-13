@@ -1,4 +1,4 @@
-#include <stdio.h>
+
 #include "SceneNode.h"
 #include <malloc.h>
 //#include <math.h> 
@@ -17,7 +17,6 @@ float walkbias = 0;
 float walkbiasangle = 0;
 float camy = 0.0f;
 float lookAngle = 90.0f;
-std::vector<SceneNode*> scene;
 
 SceneNode root;
 
@@ -35,11 +34,6 @@ float cos(float angle)
 	int32 c = cosLerp((short)(angle * DEGREES_IN_CIRCLE / 360));
 
 	return f32tofloat(c);
-}
-
-void GetCurrentMatrix(m4x4* curr)
-{
-	glGetFixed(GL_GET_MATRIX_POSITION, curr->m);
 }
 
 //int LoadGLTextures()                                                                    
@@ -86,6 +80,8 @@ int main() {
 	floor.AddVertex(150.0, -3.0, 150.0); 
 	floor.AddVertex(-150.0, -3.0, 150.0); 
 
+	floor.CreateBoundingBox(300.0f, 0.0f, 300.0f);
+
 	/*****************Cube********************/
 
 	// Front Face
@@ -129,6 +125,8 @@ int main() {
 	cube.AddVertex(-1.0f, -1.0f, 1.0f); 
 	cube.AddVertex(-1.0f, 1.0f, 1.0f); 
 	cube.AddVertex(-1.0f, 1.0f, -1.0f); 
+
+	cube.CreateBoundingBox(2.0f, 2.0f, 2.0f);
 
 	/*****************************************/
 
@@ -209,7 +207,9 @@ void init()
 {
 	// Setup the Main screen for 3D 
 	videoSetMode(MODE_0_3D);
-	//vramSetBankA(VRAM_A_TEXTURE);                        //NEW  must set up some memory for textures
+	//vramSetBankA(VRAM_A_TEXTURE);      
+
+	consoleDemoInit();
 
 	// initialize the geometry engine
 	glInit();

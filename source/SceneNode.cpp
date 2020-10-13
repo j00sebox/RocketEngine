@@ -79,42 +79,51 @@ void CameraNode::Update()
 
 void GeometryNode::Draw()
 {
-	// Draw 
-	glBegin(GL_QUADS);
+		// Draw 
+		glBegin(GL_QUADS);
 
-	int c = 0;
+		int c = 0;
+		
+		for (int i = 0; i < (int)vertices.size(); i++)
+		{
 
-	for (int i = 0; i < (int)vertices.size(); i++)
-	{
-		if (i % 4 == 0) {
-			glColor3f(colours[c].x, colours[c].y, colours[c].z);
-			c++;
+			if (i % 4 == 0) {
+				glColor3f(colours[c].x, colours[c].y, colours[c].z);
+				c++;
+			}
+			glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
 		}
-		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-	}
-	glEnd();
-
+		glEnd();
 }
 
 void GeometryNode::Update()
 {
-
+	
 	glPushMatrix();
 
 	glPopMatrix(0);
 
-	glTranslatef( (coord.x + offset.x), (coord.y + offset.y), (coord.z + offset.z) );
+	glTranslatef((coord.x + offset.x), (coord.y + offset.y), (coord.z + offset.z));
 
 	glRotateX(rot.x);
 	glRotateY(rot.y);
 	glRotateZ(rot.x);
 
-	Draw();
+	int test = BoxTestf(vertices[0].x, vertices[0].y, vertices[0].z, boundingBox.x, boundingBox.y, boundingBox.z);
+
+	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2);
+
+	if (test != 0)
+	{
+
+		Draw();
+
+		SceneNode::Update();
+	}
 
 	// recover the initial matrix transform
 	glPopMatrix(0);
-
-	SceneNode::Update();
+	
 }
 
 void GeometryNode::AddVertex(float x, float y, float z)
@@ -132,4 +141,9 @@ void GeometryNode::UpdateRot(float dx, float dy, float dz)
 	rot.x += dx;
 	rot.y += dy;
 	rot.z += dz;
+}
+
+void GeometryNode::CreateBoundingBox(float width, float height, float depth)
+{
+	boundingBox.x = width; boundingBox.y = height; boundingBox.z = depth;
 }

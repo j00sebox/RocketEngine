@@ -1,6 +1,9 @@
 #include <nds.h>
+//#include <nds/arm9/boxtest.h>
 #include <list>
 #include <vector>
+#include <cstdio>
+#include <stdio.h>
 
 class SceneNode
 {
@@ -83,10 +86,13 @@ public:
 
 	void UpdateRot(float dx, float dy, float dz);
 
+	void CreateBoundingBox(float width, float height, float depth);
+
 private:
 	Vec3D coord;
 	Vec3D offset;
 	Vec3D rot;
+	Vec3D boundingBox;
 	std::vector<Vec3D> vertices;
 	std::vector<Vec3D> colours;
 	std::vector<Vec3D> textures;
