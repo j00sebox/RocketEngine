@@ -1,9 +1,18 @@
+#ifndef SCENENODE_H
+#define SCENENODE_H
+
+
 #include <nds.h>
 //#include <nds/arm9/boxtest.h>
 #include <list>
 #include <vector>
 #include <cstdio>
 #include <stdio.h>
+#include <string>
+
+#define POLYGON_LIMIT 4000
+
+extern int polygons;
 
 class SceneNode
 {
@@ -25,7 +34,6 @@ public:
 
 	void AddChild(SceneNode* pNode);
 
-private:
 	// list of children
 	std::list<SceneNode*> childList;
 };
@@ -37,6 +45,11 @@ struct Vec3D {
 	}
 
 	float x, y, z;
+};
+
+enum Geometry {
+	TRIANGLE = 3,
+	QUAD
 };
 
 class CameraNode : public SceneNode
@@ -75,10 +88,18 @@ private:
 class GeometryNode : public SceneNode
 {
 public:
+	GeometryNode() { }
 	GeometryNode(float x, float y, float z) { coord.x = x; coord.y = y; coord.z = z; rot.x = 0.0f; rot.y = 0.0f; rot.z = 0.0f; }
 	~GeometryNode() { }
 
 	void Update();
+
+	void Offset(float x, float y, float z)
+	{
+		offset.x = x;
+		offset.y = y;
+		offset.z = z;
+	}
 
 	void AddVertex(float x, float y, float z);
 
@@ -86,13 +107,29 @@ public:
 
 	void UpdateRot(float dx, float dy, float dz);
 
+	void UpdateCoord(float dx, float dy, float dz);
+
+	void SetRot(float x, float y, float z) { rot.x = x; rot.y = y; rot.z = z; }
+
+	void SetCoord(float x, float y, float z); 
+
+	void SetGeometryType(GL_GLBEGIN_ENUM geoRenderType, Geometry geoType) { geometryRenderType = geoRenderType;  geometryType = geoType; }
+
 	void CreateBoundingBox(float width, float height, float depth);
+
+	float GetCoordX() { return coord.x; }
+	float GetCoordY() { return coord.y; }
+	float GetCoordZ() { return coord.z; }
 
 private:
 	Vec3D coord;
 	Vec3D offset;
 	Vec3D rot;
 	Vec3D boundingBox;
+	m4x4 position;
+	m4x4 vector;
+	Geometry geometryType;
+	GL_GLBEGIN_ENUM geometryRenderType;
 	std::vector<Vec3D> vertices;
 	std::vector<Vec3D> colours;
 	std::vector<Vec3D> textures;
@@ -100,3 +137,4 @@ private:
 
 };
 
+#endif
