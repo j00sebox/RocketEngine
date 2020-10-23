@@ -94,10 +94,9 @@ void GeometryNode::Draw()
 		glBegin(geometryRenderType);
 
 		int c = 0;
-		
+
 		for (int i = 0; i < (int)vertices.size(); i++)
 		{
-
 			if (i % geometryType == 0) {
 				glColor3f(colours[c].x, colours[c].y, colours[c].z);
 				c++;

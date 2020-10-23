@@ -1,6 +1,6 @@
 #include "RocketEngine.h"
 
-// tri functions that use degrees instead of radians
+// trig functions that use degrees instead of radians
 // also don't need to include math.h
 float sin(float angle)
 {
@@ -21,8 +21,10 @@ void RocketEngine::init()
 	// Setup the Main screen for 3D 
 	videoSetMode(MODE_0_3D);
 
+	// if texture mode set up BankA accordingly
 	if(!colourMode) vramSetBankA(VRAM_A_TEXTURE);      
 
+	// sets up bottom screen
 	consoleDemoInit();
 
 	// initialize the geometry engine
@@ -76,6 +78,7 @@ void RocketEngine::init()
 
 void RocketEngine::Run()
 {
+	// look what keys are being pressed
 	scanKeys();
 
 	int held = keysHeld();
@@ -131,31 +134,44 @@ void RocketEngine::Run()
 	// wait for the screen to refresh
 	swiWaitForVBlank();
 
+	// camera bobs up and down to give the appearence of normal walking
 	fpCam.SetCameraPosY(walkbias - 0.25f);
 
+	// update where camera origin is
 	fpCam.UpdateCameraPos(posx, 0.0f, posz);
 
+	// set where camera should be looking now based on it's position and lookangle
 	fpCam.SetCameraLook(fpCam.GetPosX() + cos(lookAngle), 0.0f, fpCam.GetPosZ() + sin(lookAngle));
 
 	posx = 0.0f; posz = 0.0f;
 }
 
+// render only needs to call the root's update function to kick off 
+// the scene graph update
 void RocketEngine::Render()
 {
 	root.Update();
 }
 
-void RocketEngine::CreateObject(GeometryNode* newObj, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D* vertices, Vec3D boundingBox)
+void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D vertices[], int size, Vec3D boundingBox)
 {
-	fpCam.AddChild(&(*newObj));
+	// add it to scenegraph
+	if (parent == NULL)
+		fpCam.AddChild(&(*newObj));
+	else
+		parent->AddChild(&(*newObj));
 
+	// set kind of geometry
 	newObj->SetGeometryType(geoRenderType, geoType);
 
+	// if quad, QuickQuads can be used to make it a little more efficient
 	if (geoType == QUAD)
-		QuickQuad(&(*newObj), vertices[0].x, vertices[0].y, vertices[0].z, boundingBox.x, boundingBox.y, boundingBox.z);
-	else
 	{
-		for (unsigned int i = 0; i < sizeof(vertices); i++)
+		QuickQuad(&(*newObj), vertices[0].x, vertices[0].y, vertices[0].z, boundingBox.x, boundingBox.y, boundingBox.z);
+	}
+	else // triangles need to be done the old fashioned way
+	{
+		for (int i = 0; i < size; i++)
 		{
 			newObj->AddVertex(vertices[i].x, vertices[i].y, vertices[i].z);
 		}

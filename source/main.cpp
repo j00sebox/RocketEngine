@@ -75,14 +75,14 @@ int main() {
 	// initialize generic settings for openGl
 	re.init();
 
-	//GeometryNode floor(0.0f, 0.0f, -5.0f);
-
 	/*****************Cube********************/
 
 	GeometryNode cube(0.0f, 3.0f, -5.0f);
-	Vec3D vertex(-1.0f, -1.0f, -1.0f);
-	Vec3D bb(2.0f, 2.0f, 2.0f);
-	re.CreateObject(&cube, GL_QUADS, QUAD, &vertex, bb);
+	Vec3D vertexC(-1.0f, -1.0f, -1.0f);
+	Vec3D bbC(2.0f, 2.0f, 2.0f);
+	re.CreateObject(&cube, NULL, GL_QUADS, QUAD, &vertexC, 0, bbC);
+
+	// add colours to the cube 
 
 	// Front Face
 	cube.AddColour(1.0f, 0.0f, 0.0f);
@@ -102,58 +102,44 @@ int main() {
 	// Left Face
 	cube.AddColour(1.0f, 0.5f, 0.0f);
 
-	/*****************************************/
+	/*****************Floor********************/
 
-	//GeometryNode py1;
+	// create floor
+	GeometryNode floor(0.0f, 0.0f, -5.0f);
+	Vec3D vertexF(-300.0, -3.0, -300.0);
+	Vec3D bbF(600.0f, 0.0f, 600.0f);
+	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, &vertexF, 0, bbF);
 
-	//py1.Offset(1.0f, 0.0f, 0.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
+	floor.AddColour(1.0f, 1.0f, 1.0f);
 
-	//py1.SetRot(90.0f, 0.0f, 0.0f);
+	/*****************Pyramid********************/
 
-	////GeometryNode teapot(0.0f, 5.0f, -5.0f);
+	GeometryNode py1;
 
-	//// create scene graph
+	Vec3D verticiesP1[12] = { Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 2.0f, 1.0f), Vec3D(1.0f, 2.0f, -1.0f),
+		Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 0.0f, 1.0f), Vec3D(1.0f, 0.0f, -1.0f),
+		Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 0.0f, 1.0f), Vec3D(1.0f, 2.0f, 1.0f),
+		Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 2.0f, -1.0f), Vec3D(1.0f, 0.0f, -1.0f) };
+	Vec3D bbP1(2.0f, 2.0f, 2.0f);
 
-	//
-	////fpCam.AddChild(&teapot); 
+	re.CreateObject(&py1, &cube, GL_TRIANGLES, TRIANGLE, verticiesP1, 12, bbC);
 
-	//floor.SetGeometryType(GL_QUADS, QUAD);
- //                                                                    
-	//// Create floor
-	//floor.AddColour(1.0f, 1.0f, 1.0f);
-	//floor.AddVertex(-300.0, -3.0, -300.0);
-	//floor.AddVertex(300.0, -3.0, -300.0);
-	//floor.AddVertex(300.0, -3.0, 300.0);
-	//floor.AddVertex(-300.0, -3.0, 300.0);
+	py1.Offset(1.0f, 0.0f, -2.0f);
+	py1.SetRot(90.0f, 0.0f, 0.0f);
 
-	//floor.CreateBoundingBox(600.0f, 0.0f, 600.0f);
+	py1.AddColour(1.0f, 0.0f, 1.0f);
 
-	///*****************Pyramid********************/
+	py1.AddColour(0.0f, 1.0f, 0.0f); 
 
-	//py1.SetGeometryType(GL_TRIANGLES, TRIANGLE);
+	py1.AddColour(0.0f, 0.0f, 1.0f); 
 
-	//py1.AddColour(1.0f, 0.0f, 1.0f);     // Red
-	//py1.AddVertex(0.0f, 1.0f, 0.0f);    // Green
-	//py1.AddVertex(1.0f, 2.0f, 1.0f);    // Blue
-	//py1.AddVertex(1.0f, 2.0f, -1.0f);
-
-	//py1.AddColour(0.0f, 1.0f, 0.0f);     // Red
-	//py1.AddVertex(0.0f, 1.0f, 0.0f);    // Blue
-	//py1.AddVertex(1.0f, 0.0f, 1.0f);    // Green
-	//py1.AddVertex(1.0f, 0.0f, -1.0f);
-
-	//py1.AddColour(0.0f, 0.0f, 1.0f);     // Red
-	//py1.AddVertex(0.0f, 1.0f, 0.0f);    // Blue
-	//py1.AddVertex(1.0f, 0.0f, 1.0f);     // Green
-	//py1.AddVertex(1.0f, 2.0f, 1.0f);
-
-	//py1.AddColour(0.0f, 1.0f, 1.0f);     // Red
-	//py1.AddVertex(0.0f, 1.0f, 0.0f);    // Blue
-	//py1.AddVertex(1.0f, 2.0f, -1.0f);    // Green
-	//py1.AddVertex(1.0f, 0.0f, -1.0f);
-
-	//py1.CreateBoundingBox(2.0f, 2.0f, 2.0f);
-
+	py1.AddColour(0.0f, 1.0f, 1.0f);     // Red
+	
 	/*teapot.SetGeometryType(GL_TRIANGLES, TRIANGLE);
 
 	LoadOBJFile("teapot.obj", &teapot);
