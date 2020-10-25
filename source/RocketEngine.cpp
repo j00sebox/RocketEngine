@@ -73,6 +73,7 @@ void RocketEngine::init()
 	// set initial position for camera
 	fpCam.SetCameraPos(0.0f, 1.0f, -10.0f);
 
+	printf("CONTROLS:\n");
 	printf("D-Pad Up: Move Forwards\n");
 	printf("D-Pad Down: Move Backwards\n");
 	printf("D-Pad Right: Turn Right\n");
@@ -157,6 +158,8 @@ void RocketEngine::Run()
 
 	// set where camera should be looking now based on it's position and lookangle
 	fpCam.SetCameraLook(fpCam.GetPosX() + cos(lookAngle), camy, fpCam.GetPosZ() + sin(lookAngle));
+
+	iprintf("\x1b[10;0HPolygons = %i", polygons);
 
 	posx = 0.0f; posz = 0.0f;
 }

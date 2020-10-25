@@ -72,6 +72,8 @@ void CameraNode::Update()
 	// push current matrix to stack
 	glPushMatrix();
 
+	polygons = 0;
+
 	// camera nodes need specialized update in order to set the camera properly
 	for (std::list<SceneNode*>::iterator i = childList.begin();
 		i != childList.end(); i++)
@@ -104,6 +106,7 @@ void GeometryNode::ColourDraw()
 				c++;
 			}
 			glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
+			polygons++;
 		}
 
 		glEnd();
@@ -119,6 +122,7 @@ void GeometryNode::TextureDraw()
 		// this version need a texture coord for every vertex
 		glTexCoord2f(textureCoords[i].x, textureCoords[i].y);
 		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
+		polygons++;
 	}
 
 	glEnd();
@@ -126,9 +130,6 @@ void GeometryNode::TextureDraw()
 
 void GeometryNode::Update()
 {
-	// get amount of polygons currently on screen
-	glGetInt(GL_GET_POLYGON_RAM_COUNT, &polygons);
-
 	// if polygons are below the limit then object can be drawn
 	if (polygons <= POLYGON_LIMIT)
 	{

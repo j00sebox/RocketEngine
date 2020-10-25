@@ -4,11 +4,12 @@
 #include "SceneNode.h"
 //needed to load pcx files
 #include <nds/arm9/image.h>
+#include <time.h>
 
 class RocketEngine
 {
 public:
-	RocketEngine() {}
+	RocketEngine() { }
 
 	// sets generic settings for openGL
 	void init();
