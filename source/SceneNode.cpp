@@ -88,7 +88,7 @@ void CameraNode::Update()
 
 }
 
-void GeometryNode::Draw()
+void GeometryNode::ColourDraw()
 {
 		// Draw 
 		glBegin(geometryRenderType);
@@ -97,6 +97,8 @@ void GeometryNode::Draw()
 
 		for (int i = 0; i < (int)vertices.size(); i++)
 		{
+			// this controls when colour is added
+			// once a face of the object is made then colour is added
 			if (i % geometryType == 0) {
 				glColor3f(colours[c].x, colours[c].y, colours[c].z);
 				c++;
@@ -105,6 +107,21 @@ void GeometryNode::Draw()
 		}
 
 		glEnd();
+}
+
+void GeometryNode::TextureDraw()
+{
+	// Draw 
+	glBegin(geometryRenderType);
+
+	for (int i = 0; i < (int)vertices.size(); i++)
+	{
+		// this version need a texture coord for every vertex
+		glTexCoord2f(textureCoords[i].x, textureCoords[i].y);
+		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
+	}
+
+	glEnd();
 }
 
 void GeometryNode::Update()
@@ -121,6 +138,8 @@ void GeometryNode::Update()
 		glRotateY(rot.y);
 		glRotateZ(rot.x);
 
+		glScalef(scale.x, scale.y, scale.z);
+
 		// check if the object is in view of the frustrum, if not don't draw
 		int test = BoxTestf(vertices[0].x, vertices[0].y, vertices[0].z, boundingBox.x, boundingBox.y, boundingBox.z);
 
@@ -131,7 +150,10 @@ void GeometryNode::Update()
 		if (test != 0)
 		{
 			// draw this node's geometry
-			Draw();
+			if (colour)
+				ColourDraw();
+			else
+				TextureDraw();
 
 			// update children if any
 			SceneNode::Update();
@@ -147,6 +169,11 @@ void GeometryNode::AddVertex(float x, float y, float z)
 void GeometryNode::AddColour(float r, float g, float b)
 {
 	colours.push_back(Vec3D(r, g, b));
+}
+
+void GeometryNode::AddTextCoord(float x, float y)
+{
+	textureCoords.push_back(Vec3D(x, y));
 }
 
 void GeometryNode::UpdateRot(float dx, float dy, float dz)
@@ -168,6 +195,13 @@ void GeometryNode::SetCoord(float x, float y, float z)
 	coord.x = x; 
 	coord.y = y; 
 	coord.z = z; 
+}
+
+void GeometryNode::SetScale(float x, float y, float z)
+{
+	scale.x = x;
+	scale.y = y;
+	scale.z = z;
 }
 
 void GeometryNode::CreateBoundingBox(float width, float height, float depth)

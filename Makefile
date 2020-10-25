@@ -19,9 +19,9 @@ include $(DEVKITARM)/ds_rules
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
-DATA		:=  
+DATA		:=  	data
 INCLUDES	:=	include
-GRAPHICS	:=	data
+GRAPHICS	:=	
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -127,6 +127,11 @@ $(OUTPUT).elf	:	$(OFILES)
 	@echo $(notdir $<)
 	@$(bin2o)
 
+#---------------------------------------------------------------------------------
+%.pcx.o %_pcx.h : %.pcx
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
 
 #---------------------------------------------------------------------------------
 %.s %.h	: %.png %.grit

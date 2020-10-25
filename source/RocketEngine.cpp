@@ -21,8 +21,8 @@ void RocketEngine::init()
 	// Setup the Main screen for 3D 
 	videoSetMode(MODE_0_3D);
 
-	// if texture mode set up BankA accordingly
-	if(!colourMode) vramSetBankA(VRAM_A_TEXTURE);      
+	// set BankA so it can do textures
+	vramSetBankA(VRAM_A_TEXTURE);      
 
 	// sets up bottom screen
 	consoleDemoInit();
@@ -43,8 +43,6 @@ void RocketEngine::init()
 
 	// Set our viewport to be the same size as the screen
 	glViewport(0, 0, 255, 191);
-
-	//LoadGLTextures();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -74,6 +72,13 @@ void RocketEngine::init()
 
 	// set initial position for camera
 	fpCam.SetCameraPos(0.0f, 1.0f, -10.0f);
+
+	printf("D-Pad Up: Move Forwards\n");
+	printf("D-Pad Down: Move Backwards\n");
+	printf("D-Pad Right: Turn Right\n");
+	printf("D-Pad Left: Turn Left\n");
+	printf("A: Look Up\n");
+	printf("B: Look Down\n");
 }
 
 void RocketEngine::Run()
@@ -83,17 +88,17 @@ void RocketEngine::Run()
 
 	int held = keysHeld();
 
+	// check what keys are being pressed
+	// left and right keys are responsible for changing the yaw
 	if (held & KEY_LEFT)
 	{
 		lookAngle -= 3.0f;
-		camy = lookAngle;
 	}
 	if (held & KEY_RIGHT)
 	{
 		lookAngle += 3.0f;
-		camy = lookAngle;
-
 	}
+	// up and down keys change the cameras position
 	if (held & KEY_UP)
 	{
 		posx = (float)cos(lookAngle) * 0.05f;
@@ -125,7 +130,17 @@ void RocketEngine::Run()
 		}
 		walkbias = (float)sin(walkbiasangle) / 20.0f;
 	}
+	// a & b keys change the y value the camera is looking at
+	if (held & KEY_A)
+	{
+		camy += 0.1f;
+	}
+	if (held & KEY_B)
+	{
+		camy -= 0.1f;
+	}
 
+	// redraw all objects in scene
 	Render();
 
 	// flush to screen      
@@ -141,7 +156,7 @@ void RocketEngine::Run()
 	fpCam.UpdateCameraPos(posx, 0.0f, posz);
 
 	// set where camera should be looking now based on it's position and lookangle
-	fpCam.SetCameraLook(fpCam.GetPosX() + cos(lookAngle), 0.0f, fpCam.GetPosZ() + sin(lookAngle));
+	fpCam.SetCameraLook(fpCam.GetPosX() + cos(lookAngle), camy, fpCam.GetPosZ() + sin(lookAngle));
 
 	posx = 0.0f; posz = 0.0f;
 }
@@ -153,7 +168,25 @@ void RocketEngine::Render()
 	root.Update();
 }
 
-void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D vertices[], int size, Vec3D boundingBox)
+int RocketEngine::LoadTextures(const u8 text[])
+{
+	sImage pcx;
+
+	//load our texture
+	loadPCX((u8*)text, &pcx);
+
+	image8to16(&pcx);
+
+	glGenTextures(1, &texture[0]);
+	glBindTexture(0, texture[0]);
+	glTexImage2D(0, 0, GL_RGB, TEXTURE_SIZE_128, TEXTURE_SIZE_128, 0, TEXGEN_TEXCOORD, pcx.image.data8);
+
+	imageDestroy(&pcx);
+
+	return true;
+}
+
+void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D vertices[], int size, Vec3D boundingBox, bool col)
 {
 	// add it to scenegraph
 	if (parent == NULL)
@@ -163,6 +196,8 @@ void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_G
 
 	// set kind of geometry
 	newObj->SetGeometryType(geoRenderType, geoType);
+
+	newObj->SetColourMode(col);
 
 	// if quad, QuickQuads can be used to make it a little more efficient
 	if (geoType == QUAD)
