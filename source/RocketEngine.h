@@ -1,10 +1,11 @@
 #ifndef RENGINE_H
 #define RENGINE_H
 
-#include "SceneNode.h"
+#include "GeometryNode.h"
+#include "CameraNode.h"
+
 //needed to load pcx files
 #include <nds/arm9/image.h>
-#include <time.h>
 
 class RocketEngine
 {
