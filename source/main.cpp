@@ -20,11 +20,54 @@ int main() {
 	GeometryNode cube(0.0f, 3.0f, -5.0f);
 	Vec3D vertexC(-1.0f, -1.0f, -1.0f);
 	Vec3D bbC(2.0f, 2.0f, 2.0f);
-	re.CreateObject(&cube, NULL, GL_QUADS, QUAD, &vertexC, 0, bbC, false);
+	
+	int width = bbC.x;
+	int height = bbC.y;
+	int depth = bbC.z;
+
+	Vec3D verticiesCube[24] = {
+		//z  face
+		Vec3D(vertexC.x, vertexC.y, vertexC.z),
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+
+		//z + depth face
+		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+
+		//x  face
+		Vec3D(vertexC.x, vertexC.y, vertexC.z),
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+
+		//x + width face
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+
+		//y  face
+		Vec3D(vertexC.x, vertexC.y, vertexC.z),
+		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+
+		//y  + height face
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+	};
+
+	re.CreateObject(&cube, NULL, GL_QUADS, QUAD, verticiesCube, 24, bbC, false);
 
 	cube.LoadTexture(Mud_pcx);
 
-	// add colours to the cube 
+	// add colours/texture to the cube 
 
 	//// Front Face
 	cube.AddTextCoord(0.0f, 0.0f);
@@ -72,9 +115,11 @@ int main() {
 
 	// create floor
 	GeometryNode floor(0.0f, 0.0f, -5.0f);
-	Vec3D vertexF(-300.0, -3.0, -300.0);
 	Vec3D bbF(600.0f, 0.0f, 600.0f);
-	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, &vertexF, 0, bbF, true);
+	
+	Vec3D verticesFloor[4] = { Vec3D(-300.0, -3.0, -300.0), Vec3D(-300.0, -3.0, 300.0), Vec3D(300.0, -3.0, 300.0), Vec3D(300.0, -3.0, -300.0) };
+
+	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, verticesFloor, 4, bbF, true);
 
 	/*floor.LoadTexture(drunkenlogo_pcx);
 

@@ -183,61 +183,11 @@ void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_G
 	newObj->SetGeometryType(geoRenderType, geoType);
 
 	newObj->SetColourMode(col);
-
-	// if quad, QuickQuads can be used to make it a little more efficient
-	if (geoType == QUAD)
+	
+	for (int i = 0; i < size; i++)
 	{
-		QuickQuad(&(*newObj), vertices[0].x, vertices[0].y, vertices[0].z, boundingBox.x, boundingBox.y, boundingBox.z);
+		newObj->AddVertex(vertices[i].x, vertices[i].y, vertices[i].z);
 	}
-	else // triangles need to be done the old fashioned way
-	{
-		for (int i = 0; i < size; i++)
-		{
-			newObj->AddVertex(vertices[i].x, vertices[i].y, vertices[i].z);
-		}
 
-		newObj->CreateBoundingBox(boundingBox.x, boundingBox.y, boundingBox.z);
-	}
-}
-
-// faster way to make a quad
-void RocketEngine::QuickQuad(GeometryNode* quad, float x, float y, float z, float width, float height, float depth)
-{
-	//z  face
-	quad->AddVertex(x, y, z);
-	quad->AddVertex(x + width, y, z);
-	quad->AddVertex(x + width, y + height, z);
-	quad->AddVertex(x, y + height, z);
-
-	//z + depth face
-	quad->AddVertex(x, y, z + depth);
-	quad->AddVertex(x, y + height, z + depth);
-	quad->AddVertex(x + width, y + height, z + depth);
-	quad->AddVertex(x + width, y, z + depth);
-
-	//x  face
-	quad->AddVertex(x, y, z);
-	quad->AddVertex(x, y + height, z);
-	quad->AddVertex(x, y + height, z + depth);
-	quad->AddVertex(x, y, z + depth);
-
-	//x + width face
-	quad->AddVertex(x + width, y, z);
-	quad->AddVertex(x + width, y, z + depth);
-	quad->AddVertex(x + width, y + height, z + depth);
-	quad->AddVertex(x + width, y + height, z);
-
-	//y  face
-	quad->AddVertex(x, y, z);
-	quad->AddVertex(x, y, z + depth);
-	quad->AddVertex(x + width, y, z + depth);
-	quad->AddVertex(x + width, y, z);
-
-	//y  + height face
-	quad->AddVertex(x, y + height, z);
-	quad->AddVertex(x + width, y + height, z);
-	quad->AddVertex(x + width, y + height, z + depth);
-	quad->AddVertex(x, y + height, z + depth);
-
-	quad->CreateBoundingBox(width, height, depth);
+	newObj->CreateBoundingBox(boundingBox.x, boundingBox.y, boundingBox.z);
 }

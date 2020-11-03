@@ -20,9 +20,6 @@ public:
 	// add object to scene graph and sets some values for it
 	void CreateObject(GeometryNode* node, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D* vertices, int size, Vec3D boundingBox, bool col);
 
-	// faster way to make a quad and only one vertex is needed
-	void QuickQuad(GeometryNode* quad, float x, float y, float z, float width, float height, float depth);
-
 private:
 	// walks through all nodes in scene
 	void Render();
