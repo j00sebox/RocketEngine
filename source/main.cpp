@@ -3,9 +3,11 @@
 
 // textures
 #include "Mud_pcx.h"
-
+#include "drunkenlogo_pcx.h"
 
 int main() {
+
+	/*******DEMO*******/
 
 	// instance of the engine
 	RocketEngine re;
@@ -13,14 +15,14 @@ int main() {
 	// initialize generic settings for openGl
 	re.init();
 
-	re.LoadTextures(Mud_pcx);
-
 	/*****************Cube********************/
 
 	GeometryNode cube(0.0f, 3.0f, -5.0f);
 	Vec3D vertexC(-1.0f, -1.0f, -1.0f);
 	Vec3D bbC(2.0f, 2.0f, 2.0f);
 	re.CreateObject(&cube, NULL, GL_QUADS, QUAD, &vertexC, 0, bbC, false);
+
+	cube.LoadTexture(Mud_pcx);
 
 	// add colours to the cube 
 
@@ -74,6 +76,13 @@ int main() {
 	Vec3D bbF(600.0f, 0.0f, 600.0f);
 	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, &vertexF, 0, bbF, true);
 
+	/*floor.LoadTexture(drunkenlogo_pcx);
+
+	floor.AddTextCoord(0.0f, 1.0f);
+	floor.AddTextCoord(0.0f, 0.0f);
+	floor.AddTextCoord(1.0f, 0.0f);
+	floor.AddTextCoord(1.0f, 1.0f);*/
+
 	floor.AddColour(1.0f, 1.0f, 1.0f);
 	floor.AddColour(1.0f, 1.0f, 1.0f);
 	floor.AddColour(1.0f, 1.0f, 1.0f);
@@ -109,8 +118,8 @@ int main() {
 		re.Run();
 
 		cube.UpdateRot(0.3, 0.1, 0.4);
+		
 	}
 
 	return 0;
 }
-

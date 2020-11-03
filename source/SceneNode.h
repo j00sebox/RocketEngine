@@ -140,6 +140,8 @@ public:
 	// bounding box needed to tell when object is offscreen 
 	void CreateBoundingBox(float width, float height, float depth);
 
+	bool LoadTexture(const u8 text[]);
+
 	// getter functions for coordinate vector
 	float GetCoordX() { return coord.x; }
 	float GetCoordY() { return coord.y; }
@@ -156,6 +158,8 @@ private:
 	GL_GLBEGIN_ENUM geometryRenderType; // GL enum used for glBegin()
 	std::vector<Vec3D> vertices; 
 	std::vector<Vec3D> colours;
+	sImage pcx;
+	int textureID;
 	std::vector<Vec3D> textureCoords;
 	void ColourDraw();
 	void TextureDraw();

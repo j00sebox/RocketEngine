@@ -17,9 +17,6 @@ public:
 	// changes camera position and calls render fucntion
 	void Run();
 
-	// load given texture to be used in scene
-	int LoadTextures(const u8 text []);
-
 	// add object to scene graph and sets some values for it
 	void CreateObject(GeometryNode* node, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D* vertices, int size, Vec3D boundingBox, bool col);
 
@@ -44,7 +41,6 @@ private:
 
 	float camy = 0.0f;
 	float lookAngle = 90.0f; // initial lookangle for camera
-	int texture[1]; // Storage For One Texture
 
 };
 

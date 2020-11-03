@@ -171,24 +171,6 @@ void RocketEngine::Render()
 	root.Update();
 }
 
-int RocketEngine::LoadTextures(const u8 text[])
-{
-	sImage pcx;
-
-	//load our texture
-	loadPCX((u8*)text, &pcx);
-
-	image8to16(&pcx);
-
-	glGenTextures(1, &texture[0]);
-	glBindTexture(0, texture[0]);
-	glTexImage2D(0, 0, GL_RGB, TEXTURE_SIZE_128, TEXTURE_SIZE_128, 0, TEXGEN_TEXCOORD, pcx.image.data8);
-
-	imageDestroy(&pcx);
-
-	return true;
-}
-
 void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D vertices[], int size, Vec3D boundingBox, bool col)
 {
 	// add it to scenegraph

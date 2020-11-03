@@ -114,6 +114,9 @@ void GeometryNode::ColourDraw()
 
 void GeometryNode::TextureDraw()
 {
+	// set current texture as one binded to node's id
+	glBindTexture(0, textureID);
+
 	// Draw 
 	glBegin(geometryRenderType);
 
@@ -126,6 +129,9 @@ void GeometryNode::TextureDraw()
 	}
 
 	glEnd();
+
+	// clear current texture
+	glBindTexture(0, 0);
 }
 
 void GeometryNode::Update()
@@ -208,4 +214,23 @@ void GeometryNode::SetScale(float x, float y, float z)
 void GeometryNode::CreateBoundingBox(float width, float height, float depth)
 {
 	boundingBox.x = width; boundingBox.y = height; boundingBox.z = depth;
+}
+
+bool GeometryNode::LoadTexture(const u8 text[])
+{
+	//load our texture
+	loadPCX((u8*)text, &pcx);
+
+	image8to16(&pcx);
+
+	// generate name for texture (id) and store it 
+	glGenTextures(1, &textureID);
+
+	// image data is binded to the id
+	glBindTexture(0, textureID);
+	glTexImage2D(0, 0, GL_RGB, TEXTURE_SIZE_128, TEXTURE_SIZE_128, 0, TEXGEN_TEXCOORD, pcx.image.data8);
+
+	glBindTexture(0, 0);
+	
+	return true;
 }
