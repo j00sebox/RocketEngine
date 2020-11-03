@@ -14,14 +14,6 @@ public:
 	// native update function to handle all the transformations and drawing for this object
 	void Update();
 
-	// if child, offset can be set with this
-	void Offset(float x, float y, float z)
-	{
-		offset.x = x;
-		offset.y = y;
-		offset.z = z;
-	}
-
 	// add vertex to object
 	void AddVertex(float x, float y, float z);
 
@@ -55,6 +47,7 @@ public:
 	// bounding box needed to tell when object is offscreen 
 	void CreateBoundingBox(float width, float height, float depth);
 
+	// load given texture for this geometry
 	bool LoadTexture(const u8 text[]);
 
 	// getter functions for coordinate vector
@@ -64,7 +57,6 @@ public:
 
 private:
 	Vec3D coord; // coordinate vector
-	Vec3D offset; // parent offset vector
 	Vec3D rot; // rotation vector
 	Vec3D scale; // scale vector
 	Vec3D boundingBox;

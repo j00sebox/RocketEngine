@@ -57,7 +57,7 @@ void GeometryNode::Update()
 	// if polygons are below the limit then object can be drawn
 	if (polygons <= POLYGON_LIMIT)
 	{
-		glTranslatef((coord.x + offset.x), (coord.y + offset.y), (coord.z + offset.z));
+		glTranslatef(coord.x, coord.y, coord.z);
 
 		glRotateX(rot.x);
 		glRotateY(rot.y);

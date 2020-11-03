@@ -133,7 +133,7 @@ int main() {
 
 	/*****************Pyramid********************/
 
-	GeometryNode py1;
+	GeometryNode py1(1.0f, 0.0f, -2.0f);
 
 	Vec3D verticiesP1[12] = { Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 2.0f, 1.0f), Vec3D(1.0f, 2.0f, -1.0f),
 		Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 0.0f, 1.0f), Vec3D(1.0f, 0.0f, -1.0f),
@@ -143,7 +143,6 @@ int main() {
 
 	re.CreateObject(&py1, &cube, GL_TRIANGLES, TRIANGLE, verticiesP1, 12, bbC, true);
 
-	py1.Offset(1.0f, 0.0f, -2.0f);
 	py1.SetRot(90.0f, 0.0f, 0.0f);
 
 	py1.AddColour(1.0f, 0.0f, 1.0f);
