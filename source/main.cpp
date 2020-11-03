@@ -119,21 +119,17 @@ int main() {
 	
 	Vec3D verticesFloor[4] = { Vec3D(-300.0, -3.0, -300.0), Vec3D(-300.0, -3.0, 300.0), Vec3D(300.0, -3.0, 300.0), Vec3D(300.0, -3.0, -300.0) };
 
-	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, verticesFloor, 4, bbF, true);
+	re.CreateObject(&floor, NULL, GL_QUADS, QUAD, verticesFloor, 4, bbF, false);
 
-	/*floor.LoadTexture(drunkenlogo_pcx);
+	floor.LoadTexture(drunkenlogo_pcx);
 
 	floor.AddTextCoord(0.0f, 1.0f);
 	floor.AddTextCoord(0.0f, 0.0f);
 	floor.AddTextCoord(1.0f, 0.0f);
-	floor.AddTextCoord(1.0f, 1.0f);*/
+	floor.AddTextCoord(1.0f, 1.0f);
 
-	floor.AddColour(1.0f, 1.0f, 1.0f);
-	floor.AddColour(1.0f, 1.0f, 1.0f);
-	floor.AddColour(1.0f, 1.0f, 1.0f);
-	floor.AddColour(1.0f, 1.0f, 1.0f);
-	floor.AddColour(1.0f, 1.0f, 1.0f);
-	floor.AddColour(1.0f, 1.0f, 1.0f);
+	//floor.AddColour(1.0f, 1.0f, 1.0f);
+
 
 	/*****************Pyramid********************/
 

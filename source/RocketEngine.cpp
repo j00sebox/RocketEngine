@@ -64,8 +64,6 @@ void RocketEngine::init()
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_NONE | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2);
 
 	glLight(0, RGB15(31, 31, 31), 0, floattov10(-1.0), 0);
-	glLight(1, RGB15(31, 31, 31), 0, 0, floattov10(-1.0));
-	glLight(2, RGB15(31, 31, 31), 0, 0, floattov10(1.0));
 	
 	// add camera to scene graph
 	root.AddChild(&fpCam);

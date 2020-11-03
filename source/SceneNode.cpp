@@ -94,6 +94,7 @@ void GeometryNode::ColourDraw()
 {
 		// Draw 
 		glBegin(geometryRenderType);
+		
 
 		int c = 0;
 
@@ -102,11 +103,12 @@ void GeometryNode::ColourDraw()
 			// this controls when colour is added
 			// once a face of the object is made then colour is added
 			if (i % geometryType == 0) {
+				glNormal3f(0.0f, 0.0f, 1.0f); // add normal to interact with the lighting
 				glColor3f(colours[c].x, colours[c].y, colours[c].z);
 				c++;
+				polygons++;
 			}
 			glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-			polygons++;
 		}
 
 		glEnd();
@@ -122,10 +124,14 @@ void GeometryNode::TextureDraw()
 
 	for (int i = 0; i < (int)vertices.size(); i++)
 	{
+		if (i % geometryType == 0) {
+			glNormal3f(0.0f, 0.0f, 1.0f); // add normal to interact with the lighting
+			polygons++;
+		}
 		// this version need a texture coord for every vertex
 		glTexCoord2f(textureCoords[i].x, textureCoords[i].y);
 		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-		polygons++;
+		
 	}
 
 	glEnd();
