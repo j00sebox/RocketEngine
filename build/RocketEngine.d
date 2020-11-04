@@ -1,6 +1,7 @@
 RocketEngine.o: \
  C:/Users/josh/GameEngine/RocketEngine/source/RocketEngine.cpp \
  C:/Users/josh/GameEngine/RocketEngine/source/RocketEngine.h \
+ C:/Users/josh/GameEngine/RocketEngine/source/GeometryNode.h \
  C:/Users/josh/GameEngine/RocketEngine/source/SceneNode.h \
  C:/devkitPro/libnds/include/nds.h \
  C:/devkitPro/libnds/include/nds/libversion.h \
@@ -62,9 +63,12 @@ RocketEngine.o: \
  C:/devkitPro/libnds/include/nds/arm9/video.h \
  C:/devkitPro/libnds/include/nds/arm9/videoGL.h \
  C:/devkitPro/libnds/include/nds/arm9/nand.h \
+ C:/Users/josh/GameEngine/RocketEngine/source/CameraNode.h \
  C:/devkitPro/libnds/include/nds/arm9/image.h
 
 C:/Users/josh/GameEngine/RocketEngine/source/RocketEngine.h:
+
+C:/Users/josh/GameEngine/RocketEngine/source/GeometryNode.h:
 
 C:/Users/josh/GameEngine/RocketEngine/source/SceneNode.h:
 
@@ -187,5 +191,7 @@ C:/devkitPro/libnds/include/nds/arm9/video.h:
 C:/devkitPro/libnds/include/nds/arm9/videoGL.h:
 
 C:/devkitPro/libnds/include/nds/arm9/nand.h:
+
+C:/Users/josh/GameEngine/RocketEngine/source/CameraNode.h:
 
 C:/devkitPro/libnds/include/nds/arm9/image.h:

@@ -1,5 +1,5 @@
-main.o: C:/Users/josh/GameEngine/RocketEngine/source/main.cpp \
- C:/Users/josh/GameEngine/RocketEngine/source/RocketEngine.h \
+GeometryNode.o: \
+ C:/Users/josh/GameEngine/RocketEngine/source/GeometryNode.cpp \
  C:/Users/josh/GameEngine/RocketEngine/source/GeometryNode.h \
  C:/Users/josh/GameEngine/RocketEngine/source/SceneNode.h \
  C:/devkitPro/libnds/include/nds.h \
@@ -61,13 +61,7 @@ main.o: C:/Users/josh/GameEngine/RocketEngine/source/main.cpp \
  C:/devkitPro/libnds/include/nds/arm9/trig_lut.h \
  C:/devkitPro/libnds/include/nds/arm9/video.h \
  C:/devkitPro/libnds/include/nds/arm9/videoGL.h \
- C:/devkitPro/libnds/include/nds/arm9/nand.h \
- C:/Users/josh/GameEngine/RocketEngine/source/CameraNode.h \
- C:/devkitPro/libnds/include/nds/arm9/image.h \
- C:/Users/josh/GameEngine/RocketEngine/build/Mud_pcx.h \
- C:/Users/josh/GameEngine/RocketEngine/build/drunkenlogo_pcx.h
-
-C:/Users/josh/GameEngine/RocketEngine/source/RocketEngine.h:
+ C:/devkitPro/libnds/include/nds/arm9/nand.h
 
 C:/Users/josh/GameEngine/RocketEngine/source/GeometryNode.h:
 
@@ -192,11 +186,3 @@ C:/devkitPro/libnds/include/nds/arm9/video.h:
 C:/devkitPro/libnds/include/nds/arm9/videoGL.h:
 
 C:/devkitPro/libnds/include/nds/arm9/nand.h:
-
-C:/Users/josh/GameEngine/RocketEngine/source/CameraNode.h:
-
-C:/devkitPro/libnds/include/nds/arm9/image.h:
-
-C:/Users/josh/GameEngine/RocketEngine/build/Mud_pcx.h:
-
-C:/Users/josh/GameEngine/RocketEngine/build/drunkenlogo_pcx.h:

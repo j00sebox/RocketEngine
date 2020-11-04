@@ -2,6 +2,17 @@
 
 int polygons;
 
+// destroy all children
+SceneNode::~SceneNode()
+{
+	// loop through and delete children
+	for (std::list<SceneNode*>::iterator i = childList.begin();
+		i != childList.end(); i++)
+		(*i)->Release();
+
+	childList.clear();
+}
+
 void SceneNode::AddChild(SceneNode* pNode)
 {
 	childList.push_back(pNode);
@@ -17,14 +28,6 @@ void SceneNode::Update()
 	}
 }
 
-void SceneNode::Destroy()
-{
-	// loop through and delete children
-	for (std::list<SceneNode*>::iterator i = childList.begin();
-		i != childList.end(); i++)
-		(*i)->Release();
 
-	childList.clear();
-}
 
 

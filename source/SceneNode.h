@@ -16,17 +16,14 @@ public:
 	// constructor
 	SceneNode() { }
 
-	// destructor - calls destroy
-	virtual ~SceneNode() { Destroy(); }
+	// destructor
+	virtual ~SceneNode();
 
 	// release this object from memory
 	void Release() { delete this; }
 
 	// update our scene node
 	virtual void Update();
-
-	// destroy all the children
-	void Destroy();
 
 	void AddChild(SceneNode* pNode);
 

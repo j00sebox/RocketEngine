@@ -43,7 +43,6 @@ void GeometryNode::TextureDraw()
 		// this version need a texture coord for every vertex
 		glTexCoord2f(textureCoords[i].x, textureCoords[i].y);
 		glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-
 	}
 
 	glEnd();
