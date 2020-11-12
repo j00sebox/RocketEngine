@@ -3,42 +3,42 @@
 
 void CameraNode::UpdateCameraPos(float dx, float dy, float dz)
 {
-	eye.x += dx; eye.y += dy; eye.z += dz;
+	coord.x += dx; coord.y += dy; coord.z += dz;
 }
 
 void CameraNode::UpdateCameraLook(float dx, float dy, float dz)
 {
-	lookAt.x += dx; lookAt.y += dy; lookAt.z += dz;
+	rot.x += dx; rot.y += dy; rot.z += dz;
 }
 
 void CameraNode::SetCameraPos(float x, float y, float z)
 {
-	eye.x = x; eye.y = y; eye.z = z;
+	coord.x = x; coord.y = y; coord.z = z;
 }
 
 void CameraNode::SetCameraPosY(float y)
 {
-	eye.y = y;
+	coord.y = y;
 }
 
 void CameraNode::SetCameraLook(float x, float y, float z)
 {
-	lookAt.x = x; lookAt.y = y; lookAt.z = z;
+	rot.x = x; rot.y = y; rot.z = z;
 }
 
 void CameraNode::SetCameraLookX(float x)
 {
-	lookAt.x = x;
+	rot.x = x;
 }
 
 void CameraNode::SetCameraLookY(float y)
 {
-	lookAt.y = y;
+	rot.y = y;
 }
 
 void CameraNode::SetCameraLookZ(float z)
 {
-	lookAt.z = z;
+	rot.z = z;
 }
 
 void CameraNode::Update()
@@ -54,7 +54,7 @@ void CameraNode::Update()
 	{
 		glLoadIdentity();
 
-		gluLookAt(eye.x, eye.y, eye.z, lookAt.x, lookAt.y, lookAt.z, 0.0f, 1.0f, 0.0f);
+		gluLookAt(coord.x, coord.y, coord.z, rot.x, rot.y, rot.z, 0.0f, 1.0f, 0.0f);
 
 		(*i)->Update();
 	}

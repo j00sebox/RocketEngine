@@ -27,15 +27,11 @@ public:
 
 	void SetCameraLookZ(float z);
 
-	float GetPosX() { return eye.x; }
-	float GetPosY() { return eye.y; }
-	float GetPosZ() { return eye.z; }
+	float GetPosX() { return coord.x; }
+	float GetPosY() { return coord.y; }
+	float GetPosZ() { return coord.z; }
 
 	void Update();
-
-private:
-	Vec3D eye; // where camera is positioned
-	Vec3D lookAt; // what camera is looking at
 };
 
 #endif

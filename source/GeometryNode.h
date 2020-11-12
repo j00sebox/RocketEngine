@@ -56,9 +56,7 @@ public:
 	float GetCoordZ() { return coord.z; }
 
 private:
-	Vec3D coord; // coordinate vector
-	Vec3D rot; // rotation vector
-	Vec3D scale; // scale vector
+	
 	Vec3D boundingBox;
 	bool colour; // if colour is being used or not
 	Geometry geometryType; // used for knowing how many vertices make a face
