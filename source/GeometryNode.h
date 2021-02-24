@@ -56,7 +56,7 @@ public:
 	float GetCoordZ() { return coord.z; }
 
 private:
-	
+	Vec3D origBB; // original bounding box for the geometry, reference point for when scale changes
 	Vec3D boundingBox;
 	bool colour; // if colour is being used or not
 	Geometry geometryType; // used for knowing how many vertices make a face

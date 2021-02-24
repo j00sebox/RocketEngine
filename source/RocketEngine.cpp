@@ -189,3 +189,73 @@ void RocketEngine::CreateObject(GeometryNode* newObj, GeometryNode* parent, GL_G
 
 	newObj->CreateBoundingBox(boundingBox.x, boundingBox.y, boundingBox.z);
 }
+
+void RocketEngine::AddCubeToScene(GeometryNode* newCube, bool col)
+{
+	Vec3D vertexC(-1.0f, -1.0f, -1.0f);
+	Vec3D bbC(2.0f, 2.0f, 2.0f);
+
+	int width = bbC.x;
+	int height = bbC.y;
+	int depth = bbC.z;
+
+	fpCam.AddChild(&(*newCube));
+
+	newCube->SetColourMode(col);
+
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z);
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z);
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z);
+
+	//z + depth face
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z + depth);
+
+	//x  face
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z);
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z);
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z + depth);
+
+	//x + width face
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z);
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z);
+
+	//y  face
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z);
+	newCube->AddVertex(vertexC.x, vertexC.y, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x + width, vertexC.y, vertexC.z);
+
+	//y  + height face
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z);
+	newCube->AddVertex(vertexC.x + width, vertexC.y + height, vertexC.z + depth);
+	newCube->AddVertex(vertexC.x, vertexC.y + height, vertexC.z + depth);
+
+	newCube->SetGeometryType(GL_QUADS, QUAD);
+
+	newCube->CreateBoundingBox(bbC.x, bbC.y, bbC.z);
+}
+
+void RocketEngine::AddQuadToScene(GeometryNode* newQuad, bool col)
+{
+	fpCam.AddChild(&(*newQuad));
+
+	newQuad->SetColourMode(col);
+
+	newQuad->AddVertex(1.0f, 0.0f, 1.0f);
+	newQuad->AddVertex(-1.0f, 0.0f, 1.0f);
+	newQuad->AddVertex(-1.0f, 0.0f, -1.0f);
+	newQuad->AddVertex(1.0f, 0.0f, -1.0f);
+
+	newQuad->SetGeometryType(GL_QUADS, QUAD);
+
+	newQuad->CreateBoundingBox(2.0f, 0.0f, 2.0f);
+
+}

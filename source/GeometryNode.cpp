@@ -126,10 +126,16 @@ void GeometryNode::SetScale(float x, float y, float z)
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;
+
+	// need to update bounding box info as well
+	boundingBox.x = origBB.x * x;
+	boundingBox.y = origBB.y * y;
+	boundingBox.z = origBB.z * z;
 }
 
 void GeometryNode::CreateBoundingBox(float width, float height, float depth)
 {
+	origBB.x = width; origBB.y = height; origBB.z = depth;
 	boundingBox.x = width; boundingBox.y = height; boundingBox.z = depth;
 }
 

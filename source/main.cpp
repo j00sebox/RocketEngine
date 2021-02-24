@@ -17,53 +17,52 @@ int main() {
 
 	/*****************Cube********************/
 
-	GeometryNode cube(0.0f, 3.0f, -5.0f);
-	Vec3D vertexC(-1.0f, -1.0f, -1.0f);
-	Vec3D bbC(2.0f, 2.0f, 2.0f);
+	GeometryNode cube;
+
+	re.AddCubeToScene(&cube, false);
+
+	cube.SetCoord(0.0f, 3.0f, -5.0f);
 	
-	int width = bbC.x;
-	int height = bbC.y;
-	int depth = bbC.z;
 
-	Vec3D verticiesCube[24] = {
-		//z  face
-		Vec3D(vertexC.x, vertexC.y, vertexC.z),
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+	//Vec3D verticiesCube[24] = {
+	//	//z  face
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z),
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
 
-		//z + depth face
-		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+	//	//z + depth face
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
 
-		//x  face
-		Vec3D(vertexC.x, vertexC.y, vertexC.z),
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
-		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+	//	//x  face
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z),
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
 
-		//x + width face
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+	//	//x + width face
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
 
-		//y  face
-		Vec3D(vertexC.x, vertexC.y, vertexC.z),
-		Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
-		Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
+	//	//y  face
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z),
+	//	Vec3D(vertexC.x, vertexC.y, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z + depth),
+	//	Vec3D(vertexC.x + width, vertexC.y, vertexC.z),
 
-		//y  + height face
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
-		Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
-		Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
-	};
+	//	//y  + height face
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z),
+	//	Vec3D(vertexC.x + width, vertexC.y + height, vertexC.z + depth),
+	//	Vec3D(vertexC.x, vertexC.y + height, vertexC.z + depth),
+	//};
 
-	re.CreateObject(&cube, NULL, GL_QUADS, QUAD, verticiesCube, 24, bbC, false);
+	//re.CreateObject(&cube, NULL, GL_QUADS, QUAD, verticiesCube, 24, bbC, false);
 
 	cube.LoadTexture(Mud_pcx);
 
@@ -128,8 +127,6 @@ int main() {
 	floor.AddTextCoord(1.0f, 0.0f);
 	floor.AddTextCoord(1.0f, 1.0f);
 
-	//floor.AddColour(1.0f, 1.0f, 1.0f);
-
 
 	/*****************Pyramid********************/
 
@@ -141,7 +138,7 @@ int main() {
 		Vec3D(0.0f, 1.0f, 0.0f), Vec3D(1.0f, 2.0f, -1.0f), Vec3D(1.0f, 0.0f, -1.0f) };
 	Vec3D bbP1(2.0f, 2.0f, 2.0f);
 
-	re.CreateObject(&py1, &cube, GL_TRIANGLES, TRIANGLE, verticiesP1, 12, bbC, true);
+	re.CreateObject(&py1, &cube, GL_TRIANGLES, TRIANGLE, verticiesP1, 12, bbP1, true);
 
 	py1.SetRot(90.0f, 0.0f, 0.0f);
 

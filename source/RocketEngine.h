@@ -21,6 +21,10 @@ public:
 	// add object to scene graph and sets some values for it
 	void CreateObject(GeometryNode* node, GeometryNode* parent, GL_GLBEGIN_ENUM geoRenderType, Geometry geoType, Vec3D* vertices, int size, Vec3D boundingBox, bool col);
 
+	void AddCubeToScene(GeometryNode* newCube, bool col);
+
+	void AddQuadToScene(GeometryNode* newQuad, bool col);
+
 private:
 	// walks through all nodes in scene
 	void Render();
