@@ -13,6 +13,8 @@ libnds has it's own implementation of OpenGL ES for interfacing with the nds 3D 
 
 ## How to run:
 
-You can run the demo the RocketEngine.nds binary can be run using a NDS emulator such as DeSmuME or NO$GBA.
+You can run the demo of the engine with RocketEngine.nds.
+
+The RocketEngine.nds binary can be run using a NDS emulator such as DeSmuME or NO$GBA.
 
 If you want to create our own game using the engine you can build it using make.
