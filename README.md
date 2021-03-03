@@ -1,6 +1,6 @@
 # RocketEngine
 
-Description:
+## Description:
 
 A 3D engine built for the NDS.
 
@@ -11,7 +11,7 @@ libnds has it's own implementation of OpenGL ES for interfacing with the nds 3D 
 ![Image of Demo](screenshots/Demo2.PNG)
 
 
-How to run:
+## How to run:
 
 You can run the demo the RocketEngine.nds binary can be run using a NDS emulator such as DeSmuME or NO$GBA.
 
