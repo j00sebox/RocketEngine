@@ -2,7 +2,7 @@
 
 ## Description:
 
-A 3D engine built for the NDS.
+A 3D game engine built for the NDS.
 
 This is an implementation of a scene graph engine that uses the homebrew version of the Nitendo DS's SDK, libnds.
 
